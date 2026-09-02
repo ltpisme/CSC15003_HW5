@@ -1,10 +1,31 @@
 # AI Audit - HW05
 
+> Lê Thanh Phong — MSSV: 2312745
+
+## Tuyên Bố Sử Dụng AI (AI Disclosure Declaration)
+
+*"I use AI tools for the following tasks:"*
+
+1. **Thiết kế E2E Workflow & Đối chiếu API Contract:** Sử dụng ChatGPT để phân tích yêu cầu HW05 và ánh xạ 3 nhóm endpoint (Read-heavy, Auth-heavy, Transactional).
+2. **Sinh mã kịch bản JMeter & Workload Topology:** Sử dụng `Antigravity - Gemini 3.7 Flash` để sinh khung kịch bản `.jmx` và dữ liệu CSV.
+3. **Thẩm định cú pháp & Kiểm tra tương thích JMeter 5.6.3:** Sử dụng `Antigravity - Gemini 3.7 Flash` để rà soát lỗi schema XML và tối ưu hóa cấu trúc Thread Groups.
+4. **Phân tích kết quả thực nghiệm & Săn lùng sai lệch AI:** Sử dụng `Antigravity - Gemini 3.7 Flash` để trích xuất số liệu thực tế từ `raw.jtl` và đối chiếu phản biện các nhận định sơ bộ của AI.
+5. **Thẩm định đề xuất tối ưu hóa & Thiết kế CI/CD Continuous Performance Testing Pipeline:** Sử dụng `Antigravity - Gemini 3.7 Flash` để rà soát mã nguồn backend, phân loại giải pháp tối ưu và thiết kế sơ đồ luồng Mermaid Flowchart cho Task 3.
+
+### Danh Sách Công Cụ Đã Khai Báo (Declared Tools)
+
+* **AI Tool (IDE Assistant):** `Antigravity - Gemini 3.7 Flash`
+* **AI Tool (Initial Exploration):** `ChatGPT`
+* **Công cụ kiểm thử hiệu năng (Performance Tool):** `Apache JMeter 5.6.3` (Non-GUI CLI)
+* **Công cụ giám sát tài nguyên (Resource Monitor):** `htop`
+
+---
+
 ## 1. Thiết kế workflow
 
 <a id="log-1"></a>
 
-- **Timestamp**: 23:49 01/09/2005
+- **Timestamp**: 23:49 01/09/2026
 - **Tools**: ChatGPT
 - **Input**: `extracted_requirement.md`
 - **Prompt**:
@@ -422,12 +443,11 @@ Nếu bạn gửi **README/spec hoặc source code của EShop SUT**, tôi có t
 - **Reasoning**: Thiết kế workflow tổng quát hợp lí, cần đối chiếu thêm với `api_specification.md`
 - **Student fix**: Không cần thiết
 
-
 ## 2. Đối chiếu thiết kế workflow
 
 <a id="log-2"></a>
 
-- **Timestamp**: 23:58 01/09/2005
+- **Timestamp**: 23:58 01/09/2026
 - **Tools**: ChatGPT
 - **Input**: `api_specification`, workflow được thiết kế ở phần 1
 - **Prompt**:
@@ -474,15 +494,15 @@ End
 
 ### Phân loại
 
-| Step | Endpoint                    | Vai trò                      | Đánh giá performance? |
-| ---- | --------------------------- | ---------------------------- | --------------------- |
-| 1    | `POST /api/login`           | Supporting API – lấy JWT     | **Không**             |
-| 2    | `POST /api/forgot-password` | **Auth-heavy – selected**    | **Có**                |
-| 3    | `GET /api/products`         | **Read-heavy – selected**    | **Có**                |
-| 4    | `POST /api/cart`            | **Transactional – selected** | **Có**                |
-| 5    | `GET /api/cart`             | Supporting API – verify cart | **Không**             |
+| Step | Endpoint                      | Vai trò                            | Đánh giá performance? |
+| ---- | ----------------------------- | ----------------------------------- | ------------------------ |
+| 1    | `POST /api/login`           | Supporting API – lấy JWT          | **Không**         |
+| 2    | `POST /api/forgot-password` | **Auth-heavy – selected**    | **Có**            |
+| 3    | `GET /api/products`         | **Read-heavy – selected**    | **Có**            |
+| 4    | `POST /api/cart`            | **Transactional – selected** | **Có**            |
+| 5    | `GET /api/cart`             | Supporting API – verify cart       | **Không**         |
 
-Cách này đáp ứng yêu cầu quan trọng của HW05: **một E2E workflow duy nhất đi qua cả 3 nhóm endpoint**, đồng thời vẫn chỉ đánh giá performance metrics của 3 API bạn đã chọn. HW05 yêu cầu 3 scenario Load/Stress/Spike phải dùng cùng workflow E2E. 
+Cách này đáp ứng yêu cầu quan trọng của HW05: **một E2E workflow duy nhất đi qua cả 3 nhóm endpoint**, đồng thời vẫn chỉ đánh giá performance metrics của 3 API bạn đã chọn. HW05 yêu cầu 3 scenario Load/Stress/Spike phải dùng cùng workflow E2E.
 
 ---
 
@@ -590,7 +610,7 @@ ${search}
 ${quantity}
 ```
 
-HW05 yêu cầu data-driven workflow bằng CSV để parameterize requests. 
+HW05 yêu cầu data-driven workflow bằng CSV để parameterize requests.
 
 ---
 
@@ -854,7 +874,7 @@ Tôi nghiêng về **workflow thứ hai** vì nó thể hiện transaction đã 
 
 # 10. Performance Metrics
 
-HW05 yêu cầu thu thập performance metrics và resource monitoring. 
+HW05 yêu cầu thu thập performance metrics và resource monitoring.
 
 Bạn nên **tách rõ metric của selected APIs và supporting APIs**.
 
@@ -862,39 +882,39 @@ Bạn nên **tách rõ metric của selected APIs và supporting APIs**.
 
 | Metric                   | Forgot Password | GET Products | POST Cart |
 | ------------------------ | --------------: | -----------: | --------: |
-| Request count            |               ✓ |            ✓ |         ✓ |
-| Throughput / RPS         |               ✓ |            ✓ |         ✓ |
-| Average response time    |               ✓ |            ✓ |         ✓ |
-| Median / P50             |               ✓ |            ✓ |         ✓ |
-| P90                      |               ✓ |            ✓ |         ✓ |
-| **P95**                  |               ✓ |            ✓ |         ✓ |
-| P99                      |               ✓ |            ✓ |         ✓ |
-| Min                      |               ✓ |            ✓ |         ✓ |
-| Max                      |               ✓ |            ✓ |         ✓ |
-| Error rate               |               ✓ |            ✓ |         ✓ |
-| HTTP status distribution |               ✓ |            ✓ |         ✓ |
+| Request count            |              ✓ |           ✓ |        ✓ |
+| Throughput / RPS         |              ✓ |           ✓ |        ✓ |
+| Average response time    |              ✓ |           ✓ |        ✓ |
+| Median / P50             |              ✓ |           ✓ |        ✓ |
+| P90                      |              ✓ |           ✓ |        ✓ |
+| **P95**            |              ✓ |           ✓ |        ✓ |
+| P99                      |              ✓ |           ✓ |        ✓ |
+| Min                      |              ✓ |           ✓ |        ✓ |
+| Max                      |              ✓ |           ✓ |        ✓ |
+| Error rate               |              ✓ |           ✓ |        ✓ |
+| HTTP status distribution |              ✓ |           ✓ |        ✓ |
 
 Tôi đặc biệt khuyên lấy:
 
 **P95 + throughput + error rate** làm các metric chính.
 
-P95 cũng phù hợp với yêu cầu Task 3 của HW05 về theo dõi degradation của p95. 
+P95 cũng phù hợp với yêu cầu Task 3 của HW05 về theo dõi degradation của p95.
 
 ---
 
 # 11. Resource metrics
 
-Ngoài JMeter metrics, bạn cần monitor backend resource usage vì HW05 yêu cầu screenshot tool + resource monitor đồng thời. 
+Ngoài JMeter metrics, bạn cần monitor backend resource usage vì HW05 yêu cầu screenshot tool + resource monitor đồng thời.
 
 Theo dõi tối thiểu:
 
-| Resource       | Metric                    |
-| -------------- | ------------------------- |
-| CPU            | % usage                   |
-| RAM            | Used / Available          |
-| Process memory | Backend process           |
-| Load           | System load nếu dùng htop |
-| Network        | Có thể ghi nhận nếu cần   |
+| Resource       | Metric                       |
+| -------------- | ---------------------------- |
+| CPU            | % usage                      |
+| RAM            | Used / Available             |
+| Process memory | Backend process              |
+| Load           | System load nếu dùng htop  |
+| Network        | Có thể ghi nhận nếu cần |
 
 Ví dụ với Linux:
 
@@ -1079,7 +1099,7 @@ Increase users
 Continue until degradation
 ```
 
-Theo HW05, Stress phải giúp tìm giới hạn hệ thống, và nếu kích hoạt lockout thì phải reset state giữa các lần chạy. 
+Theo HW05, Stress phải giúp tìm giới hạn hệ thống, và nếu kích hoạt lockout thì phải reset state giữa các lần chạy.
 
 ### Spike
 
@@ -1098,7 +1118,7 @@ Same E2E workflow
 
 # 16. Endurance test
 
-Ngoài 3 scenario chính, HW05 yêu cầu xác định endurance threshold bằng test duy trì khoảng **10–15 phút**. 
+Ngoài 3 scenario chính, HW05 yêu cầu xác định endurance threshold bằng test duy trì khoảng **10–15 phút**.
 
 Có thể dùng cùng workflow:
 
@@ -1269,9 +1289,156 @@ Tôi sẽ **chốt workflow này** cho HW05:
 * HTTP status
 * CPU/RAM/backend process resource usage
 
-Và quan trọng nhất, **cả Load, Stress, Spike và Endurance đều chạy cùng workflow trên**, chỉ thay đổi workload model. Điều này bám sát yêu cầu HW05 về một E2E workflow chung cho cả ba scenario. 
+Và quan trọng nhất, **cả Load, Stress, Spike và Endurance đều chạy cùng workflow trên**, chỉ thay đổi workload model. Điều này bám sát yêu cầu HW05 về một E2E workflow chung cho cả ba scenario.
 ==Output End==
 
 - **Verdict**: Valid
 - **Reasoning**: Thiết kế workflow hợp lí, sử dụng kết hợp với API hỗ trợ cho end-to-end flow, test data và metric được gợi ý hợp lí, phù hợp với yêu cầu HW05
 - **Student fix**: Không cần thiết
+
+---
+
+## 3. Sinh mã kịch bản JMeter Test Plans XML (.jmx)
+
+<a id="log-3"></a>
+
+- **Timestamp**: 14:15 02/09/2026
+- **Tools**: Antigravity - Gemini 3.7 Flash
+- **Input**: `docs/AI_Audit/01_scope.md`, `ref/HW05.md`
+- **Prompt**:
+
+==Prompt Start==
+[Nhiệm vụ]
+Dựa trên workflow E2E đã chốt và các ràng buộc của HW05:
+
+1. Sinh 3 kịch bản kiểm thử JMeter 5.6.3: Load (20 VUs), Stress (Staircase 100 VUs), Spike (Surge 80 VUs).
+2. Tích hợp 3 loại listener khác nhau không lặp lại: View Results Tree cho Load, Aggregate Report cho Stress, Summary Report cho Spike.
+3. Cấu hình Data-Driven CSV với `data/user_profiles.csv` và cơ chế tương quan dữ liệu lấy Bearer JWT Token và Product ID.
+4. Đặt tên file theo chuẩn: `23127452_Load_20260902.jmx`, `23127452_Stress_20260902.jmx`, `23127452_Spike_20260902.jmx`.
+   ==Promp End==
+
+- **Output**
+
+==Output Start==
+Đã tạo khung XML kịch bản cho cả 3 file Test Plan và cấu hình các HTTP Sampler tương ứng với 6 bước của E2E workflow:
+
+- `23127452_Load_20260902.jmx` (1 Thread Group: 20 VUs, 30s ramp, 180s hold, View Results Tree).
+- `23127452_Stress_20260902.jmx` (1 Thread Group: 100 VUs, Aggregate Report).
+- `23127452_Spike_20260902.jmx` (1 Thread Group: 80 VUs, Summary Report).
+- Cấu hình trích xuất JWT Token bằng JSON PostProcessor và nhúng vào HTTP Header Manager `Authorization: Bearer ${jwt_token}`.
+  ==Output End==
+- **Verdict**: Invalid
+- **Reasoning**:
+
+  1. Thẻ `<assertionsResultsToSave>` bị gán chuỗi `"false"`, gây lỗi `NumberFormatException` khi nạp vào Apache JMeter 5.6.3 parser.
+  2. Kịch bản Stress và Spike chỉ dùng Thread Group đơn với ramp-up tuyến tính, không mô phỏng được hình thái bậc thang (Staircase) 4 giai đoạn và đỉnh nhọn đột biến (Surge) với pha hồi phục.
+  3. Trích xuất thừa biến `reset_token` và `auth_user_id` không dùng downstream.
+- **Student fix**:
+
+  1. Viết script `temp/generate_jmx.py` để tái tạo toàn bộ 3 file JMX chuẩn cú pháp XML JMeter 5.6.3 (`assertionsResultsToSave = 0`).
+  2. Tái cấu trúc kịch bản Stress thành 4 Thread Groups song song có độ trễ khởi động (`0s, 50s, 100s, 150s`) để tạo 4 bậc tải 25 → 50 → 75 → 100 VUs.
+  3. Tái cấu trúc kịch bản Spike thành 2 Thread Groups (Baseline 5 VUs và Surge 75 VUs) tạo đỉnh tải 80 VUs và phục hồi về 5 VUs.
+  4. Dọn dẹp các biến correlation thừa và chuẩn hóa đường dẫn CSV tương đối `data/user_profiles.csv`.
+
+---
+
+## 4. Thẩm định kịch bản & Kiểm tra tương thích JMeter 5.6.3
+
+<a id="log-4"></a>
+
+- **Timestamp**: 14:40 02/09/2026
+- **Tools**: Antigravity - Gemini 3.7 Flash
+- **Input**: 3 file JMX đã sửa trong `jmeter/`, `jmeter/data/user_profiles.csv`, `temp/validate_jmx.py`
+- **Prompt**:
+
+==Prompt Start==
+[Nhiệm vụ]
+Thực hiện thẩm định tự động và kiểm tra tính hợp lệ toàn diện cho 3 file Test Plan:
+
+1. Kiểm tra cú pháp XML DOM và các thẻ XStream.
+2. Kiểm tra tính tương thích khi nạp vào engine Apache JMeter 5.6.3.
+3. Xác minh chuỗi 6 HTTP Samplers tuần tự, 4 biến trích xuất correlation và 3 loại listener không lặp lại.
+4. Chạy smoke test 1 VU kiểm tra hoạt động của SUT tại `http://localhost:3000`.
+   ==Promp End==
+
+- **Output**
+
+==Output Start==
+Báo cáo kiểm tra xác nhận:
+
+- Cả 3 file JMX nạp thành công 100% vào JMeter 5.6.3 mà không phát sinh lỗi schema.
+- Đường dẫn CSV tương đối `data/user_profiles.csv` hợp lệ.
+- 3 listener riêng biệt: Load (View Results Tree), Stress (Aggregate Report), Spike (Summary Report).
+- Smoke test hoàn tất thành công: 6 samplers trả về HTTP 200, JWT token và Product ID được trích xuất và truyền thành công sang các request tiếp theo.
+- Chi tiết xem tại `docs/AI_Audit/03_validation.md`.
+  ==Output End==
+- **Verdict**: Valid
+- **Reasoning**: Kịch bản đã hoàn toàn sẵn sàng cho đợt chạy thực nghiệm chính thức (Official Performance Execution).
+- **Student fix**: Không cần thiết.
+
+---
+
+## 5. Phân tích kết quả thực nghiệm & Săn lùng sai lệch AI (Task 2)
+
+<a id="log-5"></a>
+
+- **Timestamp**: 16:00 02/09/2026
+- **Tools**: Antigravity - Gemini 3.7 Flash
+- **Input**: `results/*/raw.jtl`, `results/*/html/statistics.json`, `evidence/*/*.png`, `temp/AI/04_execution.md`
+- **Prompt**:
+
+==Prompt Start==
+[Nhiệm vụ]
+
+1. Trích xuất toàn bộ ma trận số liệu thực nghiệm từ `statistics.json` và `raw.jtl` cho cả 4 kịch bản (Load, Stress, Spike, Endurance).
+2. Đối chiếu chéo với bản tóm tắt sơ bộ ban đầu của AI trong `04_execution.md` để phát hiện các điểm AI hiểu sai, đọc sai hoặc làm đẹp số liệu (Misinterpretation Hunt).
+3. Xác định ngưỡng chịu tải bền vững phần cứng (Endurance Threshold) qua 15 phút kiểm thử.
+   ==Promp End==
+
+- **Output**
+
+==Output Start==
+Đã tổng hợp ma trận số liệu và phát hiện các sai lệch nghiêm trọng trong bản tóm tắt cũ của AI:
+
+- Trong bài Stress: AI báo cáo P90 là 323 ms và P95 là 638 ms, trong khi thực tế `statistics.json` ghi nhận P90 là 585.0 ms (lệch 81.1%) và P95 là 876.95 ms (lệch 37.4%). AI cũng lấy sai Median (báo 47 ms vs thực tế 84.0 ms).
+- Xác lập ngưỡng Endurance phần cứng: Sustained RPS = 38.59 req/s, P95 <= 26.0 ms, Error = 0.00%, Memory ceiling ~85 MB RSS.
+- Chi tiết xem tại `temp/AI/11_task1_final_analysis.md` và `temp/AI/12_task2_final_analysis.md`.
+  ==Output End==
+- **Verdict**: Incomplete
+- **Reasoning**: Báo cáo tóm tắt ban đầu của AI đã làm mịn và giảm nhẹ độ trễ phân vị đuôi của hệ thống dưới tải cao do ước lượng trên mẫu nhỏ.
+- **Student fix**: Sinh viên bắt buộc sử dụng Ground Truth trích xuất trực tiếp từ `statistics.json` và `raw.jtl` làm số liệu chuẩn mực cho báo cáo chính, đồng thời đưa bảng so sánh sai lệch này vào mục Task 2 để phản biện AI.
+
+---
+
+## 6. Thẩm định đề xuất tối ưu hóa & Đề xuất CI/CD Pipeline (Task 3)
+
+<a id="log-6"></a>
+
+- **Timestamp**: 17:30 02/09/2026
+- **Tools**: Antigravity - Gemini 3.7 Flash
+- **Input**: `eshop/backend/server.js`, `eshop/backend/database.js`, `results/*/html/statistics.json`, `ref/HW05.md`
+- **Prompt**:
+
+==Prompt Start==
+[Nhiệm vụ]
+
+1. Rà soát mã nguồn backend SUT để xác thực 4 lỗi chức năng và thẩm định các đề xuất tối ưu hóa do AI đưa ra.
+2. Phân loại từng đề xuất tối ưu thành 4 nhóm chuẩn: Feasible, Technically invalid (Hallucinated), Not supported by evidence, Requires further validation.
+3. Thiết kế kiến trúc Continuous Performance Testing Pipeline tích hợp CI/CD với lưu đồ Mermaid Flowchart và phân tích trade-offs theo yêu cầu Task 3.
+   ==Promp End==
+
+- **Output**
+
+==Output Start==
+
+1. Đã xác nhận 4 bug trong code: `BUG-01` (lockout counter +2), `BUG-02` (SQLi search trả HTML), `BUG-03` (price string chẵn), `BUG-04` (hủy đơn shipping).
+2. Thẩm định 9 đề xuất tối ưu:
+   - Feasible: Bật SQLite WAL mode, Thêm index `users.email`, Chuyển giỏ hàng sang TTL store, Cache-Aside sản phẩm.
+   - Technically invalid: Hạ bcrypt work factor (mã nguồn lưu Plaintext, không dùng bcrypt); Tăng SQLite Connection Pool (SQLite là file-based).
+   - Not supported by evidence: Chuyển Microservices, Nâng RAM 64GB.
+3. Thiết kế sơ đồ Mermaid Flowchart 5 giai đoạn cho CI/CD pipeline với 3 cổng chặn suy thoái P95.
+   ==Output End==
+
+- **Verdict**: Valid
+- **Reasoning**: Đã phân định rạch ròi giữa giải pháp khả thi và giải pháp ảo tưởng dựa trên bằng chứng mã nguồn thực tế; thiết kế Task 3 đáp ứng đầy đủ yêu cầu Bloom G9.6 Disrupt.
+- **Student fix**: Đưa toàn bộ nội dung thẩm định và sơ đồ Mermaid vào báo cáo chính `docs/report.md`.
